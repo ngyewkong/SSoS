@@ -15,7 +15,7 @@ pub fn print_data_types() {
     let result = 10; // i32 by default
     println!("Size of i32:{}", mem::size_of::<i32>());
 
-    let age: u32 = 20;
+    let age: u32 = 20; // explicit type declaration
     let sum: i32 = 5 - 15;
     let mark: isize = 10;
     let count: usize = 30;
