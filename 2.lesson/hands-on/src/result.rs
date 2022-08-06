@@ -1,3 +1,4 @@
+// Result return Ok or Err macro
 pub fn check_length(s: &str, min: usize) -> Result<&str, String> {
     if s.chars().count() >= min {
         return Ok(s);
