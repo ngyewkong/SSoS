@@ -1,11 +1,14 @@
 use anchor_lang::prelude::*;
 
+// program id
 declare_id!("Fg6PaFpoGXkYsidMpWTK6W2BeZ7FEfcYkg476zPFsLnS");
 
+// business logic goes here
 #[program]
 pub mod turnstile {
     use super::*;
 
+    // context initialize
     pub fn initialize(ctx: Context<Initialize>) -> Result<()> {
         let state = &mut ctx.accounts.state;
         state.locked = true;
@@ -31,16 +34,17 @@ pub mod turnstile {
     }
 }
 
+// define the inputs to the program
 // validate incoming accounts here
 #[derive(Accounts)]
 pub struct Initialize<'info> {
     #[account(
         init,
-        payer = user,
+        payer = user, // payer have to be the signer
         space = 32 + 8 + 1
     )]
-    pub state: Account<'info, State>,
-    #[account(mut)]
+    pub state: Account<'info, State>, // wrapper ard account info
+    #[account(mut)] // another constraint to set user to mutable for fee deductions
     pub user: Signer<'info>,
     #[account(
         init,
@@ -49,7 +53,7 @@ pub struct Initialize<'info> {
         seeds = [b"treasury"], bump
     )]
     pub treasury: Account<'info, Treasury>,
-    pub system_program: Program<'info, System>,
+    pub system_program: Program<'info, System>, // the system program that will validate the accounts that we are passing in
 }
 
 // validate incoming accounts here
@@ -71,6 +75,7 @@ pub struct Push<'info> {
     pub payer: Signer<'info>,
 }
 
+// account macro
 #[account]
 #[derive(Default)]
 pub struct State {

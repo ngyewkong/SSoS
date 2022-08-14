@@ -2,11 +2,12 @@ use borsh::{BorshDeserialize, BorshSerialize};
 use solana_program::{
     account_info::{next_account_info, AccountInfo},
     entrypoint::ProgramResult,
+    native_token::sol_to_lamports,
     program::{invoke, invoke_signed},
     pubkey::Pubkey,
     rent::Rent,
     system_instruction, system_program,
-    sysvar::Sysvar, native_token::sol_to_lamports,
+    sysvar::Sysvar,
 };
 
 use crate::{instruction::TurnstileInstruction, state::State};
@@ -18,6 +19,7 @@ pub fn process_instruction(
 ) -> ProgramResult {
     let instruction = TurnstileInstruction::try_from_slice(instruction_data)?;
 
+    // choose the path of the program to determine what instructions will be called
     match instruction {
         TurnstileInstruction::Initialze { init_state } => {
             initialize(program_id, accounts, init_state)
@@ -82,12 +84,12 @@ pub fn coin(_program_id: &Pubkey, accounts: &[AccountInfo]) -> ProgramResult {
     let user_account_info = next_account_info(account_into_iter)?;
 
     assert_eq!(user_account_info.is_signer, true);
-    
+
     invoke(
         &system_instruction::transfer(
             &user_account_info.key,
             &treasury_account_info.key,
-            sol_to_lamports(1.0)
+            sol_to_lamports(1.0),
         ),
         &[user_account_info.clone(), treasury_account_info.clone()],
     )?;

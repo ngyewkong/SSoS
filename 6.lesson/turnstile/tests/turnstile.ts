@@ -11,7 +11,7 @@ describe("turnstile", () => {
 
   const program = anchor.workspace.Turnstile as Program<Turnstile>;
   const state = anchor.web3.Keypair.generate();
-  const user = (program.provider as anchor.AnchorProvider).wallet;
+  const user = (program.provider as anchor.AnchorProvider).wallet; // setting the wallet to be the user of the program
 
   it("Is initialized!", async () => {
 
@@ -35,11 +35,11 @@ describe("turnstile", () => {
         treasury: treasuryPDA,
         systemProgram: SystemProgram.programId,
       })
-      .signers([state])
-      .rpc();
+      .signers([state]) // sign the transactions by sending the keypair not the PubKey or SecretKey
+      .rpc(); // call the rpc
 
     let turnstileState = await program.account.state.fetch(state.publicKey);
-    expect(turnstileState.locked).to.equal(true);
+    expect(turnstileState.locked).to.equal(true); // throw exception
   });
 
   it("Coin!", async () => {

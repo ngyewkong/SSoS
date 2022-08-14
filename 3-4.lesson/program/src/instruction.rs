@@ -7,6 +7,7 @@ use solana_program::{
     system_program,
 };
 
+// derive macro using the traits Borsh library for serialisation
 #[derive(Debug, BorshDeserialize, BorshSerialize)]
 pub enum TurnstileInstruction {
     /// Initialize a Turnstile state

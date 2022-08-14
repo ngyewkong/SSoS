@@ -3,5 +3,10 @@ members = [
     "1.lesson/counter/program",
     "2.lesson/hands-on",
     "3-4.lesson/program",
+<<<<<<< Updated upstream
     "5.lesson/program",
 ]
+=======
+    "5.lesson/program"
+]
+>>>>>>> Stashed changes
